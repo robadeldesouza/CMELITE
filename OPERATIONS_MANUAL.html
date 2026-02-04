@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CM ELITE | Manual de Operações v4.7</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand: #eab308;
+            --bg: #020617;
+        }
+        body {
+            background-color: var(--bg);
+            color: #94a3b8;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .font-display { font-family: 'Rajdhani', sans-serif; }
+        .glow { text-shadow: 0 0 10px rgba(234, 179, 8, 0.4); }
+        .border-brand { border-color: rgba(234, 179, 8, 0.3); }
+        .bg-card { background-color: rgba(15, 23, 42, 0.8); }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--brand); }
+    </style>
+</head>
+<body class="p-4 md:p-10 leading-relaxed">
+    <div class="max-w-4xl mx-auto">
+        <!-- HEADER -->
+        <header class="border-b-2 border-brand pb-8 mb-12 flex flex-col md:flex-row justify-between items-end gap-6">
+            <div>
+                <div class="text-brand font-bold text-xs tracking-[0.4em] uppercase mb-2">Protocolo Jarvis - Unidade de Inteligência</div>
+                <h1 class="text-5xl font-display font-black text-white glow tracking-tighter uppercase leading-none">
+                    Manual de <span class="text-brand">Operações</span>
+                </h1>
+                <p class="text-slate-500 mt-2 text-sm uppercase font-bold tracking-widest">Acesso de Nível 1: Pré-Instalação e Setup</p>
+            </div>
+            <div class="text-right font-mono text-[10px] text-slate-700">
+                CORE_ID: CM_ELITE_4.7.0<br>
+                DATE: 29_JAN_2026<br>
+                STATUS: ENCRYPTED_STABLE
+            </div>
+        </header>
+
+        <!-- NAVEGAÇÃO RÁPIDA -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-12">
+            <a href="#setup" class="bg-card border border-brand/20 p-3 text-[10px] font-bold text-white text-center hover:bg-brand hover:text-black transition-all uppercase">Instalação</a>
+            <a href="#gemini" class="bg-card border border-brand/20 p-3 text-[10px] font-bold text-white text-center hover:bg-brand hover:text-black transition-all uppercase">Configuração IA</a>
+            <a href="#arch" class="bg-card border border-brand/20 p-3 text-[10px] font-bold text-white text-center hover:bg-brand hover:text-black transition-all uppercase">Arquitetura</a>
+            <a href="#admin" class="bg-card border border-brand/20 p-3 text-[10px] font-bold text-white text-center hover:bg-brand hover:text-black transition-all uppercase">Acesso Admin</a>
+        </div>
+
+        <!-- SEÇÃO: SETUP -->
+        <section id="setup" class="mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-10 h-10 bg-brand/10 border border-brand/30 flex items-center justify-center text-brand font-bold text-xl">01</div>
+                <h2 class="text-2xl font-display font-black text-white uppercase tracking-tight">Instalação do Ecossistema</h2>
+            </div>
+            <div class="bg-card border border-slate-800 rounded-xl p-6 md:p-8 space-y-6">
+                <div>
+                    <h4 class="text-brand font-bold text-xs uppercase mb-3">Requisitos de Hardware/Software:</h4>
+                    <ul class="list-disc list-inside text-sm space-y-2 text-slate-300">
+                        <li>Node.js <span class="text-white font-bold">v18.17.0</span> ou superior.</li>
+                        <li>Gerenciador de Pacotes: <span class="text-white font-bold">npm</span> ou <span class="text-white font-bold">yarn</span>.</li>
+                        <li>Navegador moderno com suporte a <span class="text-white font-bold">PWA</span> (Chrome/Safari).</li>
+                    </ul>
+                </div>
+                <div class="bg-black/50 p-4 rounded border border-slate-700 font-mono text-xs text-emerald-400">
+                    <p class="text-slate-500 mb-2"># Clone o repositório e entre na pasta</p>
+                    <p>cd coinmaster-elite-hacks</p>
+                    <p class="text-slate-500 my-2"># Instale as dependências de elite</p>
+                    <p>npm install</p>
+                    <p class="text-slate-500 my-2"># Inicie o motor de desenvolvimento</p>
+                    <p>npm run dev</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: GEMINI -->
+        <section id="gemini" class="mb-16">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-10 h-10 bg-brand/10 border border-brand/30 flex items-center justify-center text-brand font-bold text-xl">02</div>
+                <h2 class="text-2xl font-display font-black text-white uppercase tracking-tight">Configuração da IA JADE</h2>
+            </div>
+            <div class="bg-card border border-slate-800 rounded-xl p-6 md:p-8">
+                <p class="text-sm mb-6">A IA Jade é o cérebro do suporte técnico e opera via <span class="text-white font-bold">Google Gemini 3</span>. Para ativá-la, você deve configurar a chave secreta:</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="bg-black/30 p-4 border-l-2 border-brand rounded-r">
+                            <span class="text-[10px] font-bold block mb-1 uppercase">Arquivo: .env.local</span>
+                            <code class="text-xs text-brand-400">GEMINI_API_KEY=sua_chave_aqui</code>
+                        </div>
+                        <p class="text-[10px] italic text-slate-500">Sem esta chave, o sistema entra em 'Modo Legado', simulando mensagens de bots pré-programados no chat.</p>
+                    </div>
+                    <div class="bg-brand/5 border border-brand/10 p-4 rounded-xl">
+                        <h5 class="text-white font-bold text-xs uppercase mb-2">Onde obter a chave?</h5>
+                        <a href="https://aistudio.google.com/" target="_blank" class="text-brand underline text-xs font-bold block mb-2">Google AI Studio (Clique Aqui)</a>
+                        <p class="text-[10px] text-slate-400 leading-tight">Crie um projeto gratuito e gere sua API Key. O custo de operação é zero para o volume de teste deste protótipo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO: ADMIN -->
+        <section id="admin" class="mb-16">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-10 h-10 bg-brand/10 border border-brand/30 flex items-center justify-center text-brand font-bold text-xl">03</div>
+                <h2 class="text-2xl font-display font-black text-white uppercase tracking-tight">Protocolo de Acesso Admin</h2>
+            </div>
+            <div class="bg-card border border-slate-800 rounded-xl p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex-1">
+                    <p class="text-sm mb-4">O Painel de Controle é invisível para usuários comuns. Para abrir a interface de comando:</p>
+                    <div class="bg-slate-900 p-4 rounded border border-slate-700 flex items-start gap-3">
+                        <div class="p-2 bg-brand/20 rounded text-brand">🔒</div>
+                        <div>
+                            <p class="text-white font-bold text-xs uppercase">Código de Ativação:</p>
+                            <p class="text-sm text-slate-400 mt-1">Realize <span class="text-brand font-bold">5 cliques consecutivos</span> sobre o Logo <span class="text-white">"CM ELITE"</span> no topo da página.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-64 bg-black/40 p-4 border border-slate-800 rounded-xl">
+                    <h5 class="text-[10px] font-bold text-slate-500 uppercase mb-3">Funções Disponíveis:</h5>
+                    <ul class="text-[10px] space-y-2 uppercase tracking-wider text-slate-400">
+                        <li class="flex items-center gap-2"><span class="text-emerald-500">✔</span> Alternar Modo Promo</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-500">✔</span> Ativar Intelligence Core</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-500">✔</span> Monitorar Logs de Rede</li>
+                        <li class="flex items-center gap-2"><span class="text-emerald-500">✔</span> Editar Textos Hero/CTA</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="mt-20 pt-10 border-t border-slate-800 text-center">
+            <p class="text-[10px] font-bold uppercase tracking-[0.5em] text-slate-600">Este documento é confidencial e destinado apenas a operadores de sistema.</p>
+            <p class="text-[9px] mt-4 text-slate-800">&copy; 2026 CoinMaster Elite | Protocolo Jarvis v4.7</p>
+        </footer>
+    </div>
+</body>
+</html>

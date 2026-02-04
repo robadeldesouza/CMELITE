@@ -1,0 +1,1 @@
+// MIGRADO PARA tools/GlobalNotes.tsx

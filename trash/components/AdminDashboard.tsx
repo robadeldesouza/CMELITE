@@ -1,0 +1,1 @@
+// MIGRADO PARA admin/pages/AdminDashboard.tsx

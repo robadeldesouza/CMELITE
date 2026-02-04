@@ -1,0 +1,74 @@
+
+/* 
+ * LayoutPRINCIPAL.css
+ * O Novo Padrão (Antigo Promo/Gold).
+ * Higienizado para compatibilidade nativa com Tailwind CDN.
+ */
+
+/* Utilitários Customizados (Convertidos de @apply para CSS puro) */
+.glass-panel {
+  background-color: rgba(15, 23, 42, 0.6); /* slate-900/60 */
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(30, 41, 59, 0.6); /* slate-800/60 */
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(var(--brand-rgb), 0.5);
+}
+
+.text-glow-red {
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+
+/* Background Noise Texture */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* --- ANIMAÇÕES GLOBAIS --- */
+
+@keyframes gold-pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(var(--brand-rgb), 0.2); }
+  50% { box-shadow: 0 0 20px rgba(var(--brand-rgb), 0.6); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes slideUpFade {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shine {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .5; }
+}
+
+/* Classes utilitárias para as animações */
+.animate-gold-pulse {
+  animation: gold-pulse 2s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-slide-up-fade-slow {
+  animation: slideUpFade 2s ease-out forwards;
+}
+
+.animate-shine {
+  animation: shine 3s linear infinite;
+}
+
+.animate-pulse-fast {
+    animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

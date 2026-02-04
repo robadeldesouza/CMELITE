@@ -1,0 +1,1 @@
+// MIGRADO PARA components/App.tsx

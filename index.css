@@ -1,0 +1,92 @@
+
+/* 
+ * Styles Globais - CM ELITE (JARVIS v4.7)
+ * Design Tokens migrados para CSS Variables (Zero JS Overhead no Render)
+ */
+
+:root {
+  /* --- PALETA BRAND (OURO) --- */
+  --brand-50: #fefce8;
+  --brand-100: #fef9c3;
+  --brand-200: #fef08a;
+  --brand-300: #fde047;
+  --brand-400: #facc15;
+  --brand-500: #eab308;
+  --brand-600: #ca8a04;
+  --brand-700: #a16207;
+  --brand-800: #854d0e;
+  --brand-900: #713f12;
+  --brand-950: #422006;
+  
+  /* --- CORES SEMÂNTICAS --- */
+  --bg-page: #020617;
+  --bg-surface: #0f172a;
+  --bg-surface-highlight: #1e293b;
+  --border-dim: #1e293b;
+  --border-highlight: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --status-success: #10b981;
+  --status-error: #ef4444;
+  --status-info: #3b82f6;
+
+  /* --- TIPOGRAFIA --- */
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Rajdhani", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* --- EFEITOS (Z-INDEX NORMALIZADO) --- */
+  --z-banner: 100;
+  --z-navbar: 90;
+  --z-sticky: 80;
+  --z-modal: 200;
+  --z-admin: 1000;
+
+  --brand-rgb: 234, 179, 8;
+  --effect-shadow-neon: 0 0 10px rgba(var(--brand-rgb), 0.3), 0 0 20px rgba(var(--brand-rgb), 0.1);
+  --effect-shadow-neon-strong: 0 0 15px rgba(var(--brand-rgb), 0.5), 0 0 30px rgba(var(--brand-rgb), 0.2);
+  --effect-shadow-neon-red: 0 0 10px rgba(239, 68, 68, 0.4), 0 0 20px rgba(239, 68, 68, 0.2);
+  --effect-shadow-metallic: inset 0 1px 0 0 rgba(255, 255, 255, 0.3), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollbar Customizada */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface-highlight);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-500);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* 
+ * MODO PERFORMANCE (LIGHT MODE / LOW PERF)
+ */
+html[data-perf="low"] *,
+html[data-perf="low"] *::before,
+html[data-perf="low"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+html[data-perf="low"] .glass-panel,
+html[data-perf="low"] .backdrop-blur,
+html[data-perf="low"] .backdrop-blur-sm,
+html[data-perf="low"] .backdrop-blur-md,
+html[data-perf="low"] .backdrop-blur-lg,
+html[data-perf="low"] .backdrop-blur-xl,
+html[data-perf="low"] .backdrop-blur-2xl,
+html[data-perf="low"] .backdrop-blur-3xl {
+    backdrop-filter: none !important;
+    background-color: var(--bg-surface) !important;
+}
