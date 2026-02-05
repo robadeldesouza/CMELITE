@@ -45,7 +45,7 @@ const DEFAULT_FEATURES: FeatureFlags = {
   emulator: true,
   nemesisCampaignActive: false,
   geminiEnabled: false, 
-  globalNotes: false    
+  globalNotes: true    
 };
 
 const ALL_TOOLS = ['bundle_elite', 'tool_viking', 'tool_sequence', 'tool_sniper', 'tool_cards', 'tool_ghost', 'tool_speed'];
