@@ -1,4 +1,3 @@
-
 import React, { useState, useLayoutEffect, useRef, useEffect } from 'react';
 import { ChatTemplate } from '../types';
 import { 
@@ -120,9 +119,12 @@ export const TemplateSelector: React.FC<TemplateSelectorProps> = ({ onSelect, on
              <div className="flex bg-slate-100 p-0.5 rounded-lg border border-slate-200 scale-90 sm:scale-100">
                 {(['desktop', 'tablet', 'mobile'] as DeviceType[]).map((d) => (
                     <button key={d} onClick={() => setPreview({ ...preview, device: d })} className={`p-2 rounded-md transition-all ${preview.device === d ? 'bg-white text-brand-600 shadow-md' : 'text-slate-400 hover:text-slate-600'}`}>
-                        {d === 'desktop' && <DesktopIcon size={16} dWidth={2.5}/>}
-                        {d === 'tablet' && <TabletIcon size={16} dWidth={2.5}/>}
-                        {d === 'mobile' && <MobileIcon size={16} dWidth={2.5}/>}
+                        {/* Fix: Replace incorrect dWidth with strokeWidth for Lucide icons */}
+                        {d === 'desktop' && <DesktopIcon size={16} strokeWidth={2.5}/>}
+                        {/* Fix: Replace incorrect dWidth with strokeWidth for Lucide icons */}
+                        {d === 'tablet' && <TabletIcon size={16} strokeWidth={2.5}/>}
+                        {/* Fix: Replace incorrect dWidth with strokeWidth for Lucide icons */}
+                        {d === 'mobile' && <MobileIcon size={16} strokeWidth={2.5}/>}
                     </button>
                 ))}
              </div>

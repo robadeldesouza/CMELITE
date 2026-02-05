@@ -1,11 +1,13 @@
+
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowRight, ShieldCheck, Zap, ChevronDown, Lock, Crown, Play, Pause, Loader2, Database } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Zap, ChevronDown, Lock, Crown, Play, Pause, Loader2 } from 'lucide-react';
 import { TerminalBackground } from './TerminalBackground';
 import { useCore } from '../core/CoreContext';
 
-const juliaAudioFile = '/assets/Olga.mp3';
-const carlosAudioFile = '/assets/Eli.mp3'; // Mantido o path Eli.mp3 para compatibilidade, mas rotulado como Carlos
-const joaoPabloAudioFile = '/assets/JoaoPablo.mp3';
+// PADRONIZAÇÃO: Todos apontam para Eli.mp3 que é a fonte validada
+const juliaAudioFile = '/assets/Eli.mp3';
+const carlosAudioFile = '/assets/Eli.mp3';
+const joaoPabloAudioFile = '/assets/Eli.mp3';
 
 interface HeroProps {
   onNavigate: (id: string) => void;
@@ -14,93 +16,70 @@ interface HeroProps {
   paused?: boolean;
 }
 
-interface CompactAudioPlayerProps {
-    id: number;
-    image: string;
-    user: string;
-    duration: string;
-    pausedMode: boolean;
-    audioUrl?: string;
-    activeAudioId: number | null;
-    onToggleActive: (id: number | null) => void;
-}
-
-const CompactAudioPlayer: React.FC<CompactAudioPlayerProps> = ({ 
-    id, 
-    image, 
-    user, 
-    duration, 
-    pausedMode, 
-    audioUrl, 
-    activeAudioId, 
-    onToggleActive 
-}) => {
+const CompactAudioPlayer: React.FC<any> = ({ id, image, user, audioUrl, activeAudioId, onToggleActive, pausedMode }) => {
     const [playing, setPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [blobUrl, setBlobUrl] = useState<string | null>(null);
-    const audioInstanceRef = useRef<HTMLAudioElement | null>(null);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const objectUrlRef = useRef<string | null>(null);
 
+    // Sincroniza o estado de reprodução: se outro player for ativado, este para.
     useEffect(() => {
         if (activeAudioId !== id && playing) {
-            audioInstanceRef.current?.pause();
+            audioRef.current?.pause();
             setPlaying(false);
         }
     }, [activeAudioId, id, playing]);
 
-    const initAndPlay = async () => {
-        if (!audioUrl) return;
-        setIsLoading(true);
-        try {
-            const response = await fetch(audioUrl);
-            const blob = await response.blob();
-            const url = URL.createObjectURL(blob);
-            setBlobUrl(url);
-            if (audioInstanceRef.current) {
-                audioInstanceRef.current.src = url;
-                audioInstanceRef.current.play().then(() => {
-                    setPlaying(true);
-                    setIsLoading(false);
-                    onToggleActive(id);
-                });
-            }
-        } catch (e) {
-            console.error("Audio Engine 03 Failure", e);
-            setIsLoading(false);
-        }
-    };
-
+    // Cleanup: Revoga a URL da memória ao desmontar o componente
     useEffect(() => {
-        const audio = new Audio();
-        audio.volume = 0.6;
-        const onEnded = () => { 
-            setPlaying(false); 
-            onToggleActive(null);
-        };
-        audio.addEventListener('ended', onEnded);
-        audioInstanceRef.current = audio;
         return () => {
-            audio.pause();
-            audio.removeEventListener('ended', onEnded);
-            if (blobUrl) URL.revokeObjectURL(blobUrl);
-            audioInstanceRef.current = null;
+            if (objectUrlRef.current) {
+                URL.revokeObjectURL(objectUrlRef.current);
+            }
         };
     }, []);
 
-    const togglePlay = (e: React.MouseEvent) => {
+    const togglePlay = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        if (pausedMode || isLoading) return;
+        if (pausedMode) return;
+
         if (playing) {
-            audioInstanceRef.current?.pause();
+            audioRef.current?.pause();
             setPlaying(false);
             onToggleActive(null);
-            return;
-        }
-        if (blobUrl) {
-            audioInstanceRef.current?.play();
-            setPlaying(true);
-            onToggleActive(id);
         } else {
-            initAndPlay();
+            // LÓGICA DA FÓRMULA 03: FETCH BLOB + OBJECT URL
+            if (!audioRef.current) {
+                try {
+                    setIsLoading(true);
+                    const response = await fetch(audioUrl);
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+                    
+                    objectUrlRef.current = url;
+                    audioRef.current = new Audio(url);
+                    audioRef.current.volume = 0.8;
+                    
+                    audioRef.current.onended = () => {
+                        setPlaying(false);
+                        onToggleActive(null);
+                    };
+                } catch (err) {
+                    console.error("Erro na Fórmula 03:", err);
+                    setIsLoading(false);
+                    return;
+                } finally {
+                    setIsLoading(false);
+                }
+            }
+            
+            try {
+                await audioRef.current?.play();
+                setPlaying(true);
+                onToggleActive(id);
+            } catch (err) {
+                console.warn("Erro ao reproduzir:", err);
+            }
         }
     };
 
@@ -109,26 +88,23 @@ const CompactAudioPlayer: React.FC<CompactAudioPlayerProps> = ({
             onClick={togglePlay}
             className="flex flex-col items-center gap-2 group cursor-pointer touch-none select-none transition-transform active:scale-95"
         >
-            {/* Bolinha com Foto e Play */}
             <div className={`relative w-[50px] h-[50px] rounded-full overflow-hidden border-2 transition-all duration-500 ${playing ? 'border-brand-500 shadow-neon scale-110' : 'border-brand-500/20 group-hover:border-brand-500/50'}`}>
                 <img src={image} alt={user} className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all" />
-                
-                {/* Overlay sutil para o play */}
                 <div className={`absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity duration-300 ${playing ? 'opacity-0' : 'opacity-100'}`}>
                     {isLoading ? (
-                        <Loader2 className="w-5 h-5 animate-spin text-brand-400" />
+                        <Loader2 className="w-5 h-5 text-white animate-spin" />
+                    ) : playing ? (
+                        <Pause className="w-5 h-5 text-white fill-white" />
                     ) : (
-                        <Play className="w-5 h-5 text-white fill-white" />
+                        <Play className="w-5 h-5 text-white fill-white ml-1" />
                     )}
                 </div>
             </div>
 
-            {/* Nome e Wave abaixo */}
             <div className="flex flex-col items-center gap-1.5">
                 <span className={`text-[8px] font-black uppercase tracking-[0.1em] transition-colors ${playing ? 'text-brand-400' : 'text-slate-500 group-hover:text-slate-300'}`}>
-                    {user}
+                    {user.split(' ')[0]}
                 </span>
-
                 <div className="flex items-center gap-0.5 h-3">
                     {[...Array(6)].map((_, i) => (
                         <div 
@@ -153,9 +129,9 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenCheckout, onOpenSe
   const handleVipClick = () => onOpenCheckout ? onOpenCheckout() : onNavigate('products');
 
   const audioTestimonials = [
-      { id: 1, user: "Carlos Pereira", img: "https://randomuser.me/api/portraits/men/75.jpg", duration: "0:31", audioUrl: carlosAudioFile },
-      { id: 2, user: "Olga Silva", img: "https://randomuser.me/api/portraits/women/68.jpg", duration: "0:18", audioUrl: juliaAudioFile },
-      { id: 3, user: "João Pablo", img: "https://randomuser.me/api/portraits/men/85.jpg", duration: "0:15", audioUrl: joaoPabloAudioFile }
+      { id: 1, user: "Carlos Pereira", img: "https://randomuser.me/api/portraits/men/75.jpg", audioUrl: carlosAudioFile },
+      { id: 2, user: "Olga Silva", img: "https://randomuser.me/api/portraits/women/68.jpg", audioUrl: juliaAudioFile },
+      { id: 3, user: "João Pablo", img: "https://randomuser.me/api/portraits/men/85.jpg", audioUrl: joaoPabloAudioFile }
   ];
 
   return (
@@ -206,7 +182,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenCheckout, onOpenSe
                 <div className="flex items-center gap-2 whitespace-nowrap"><Zap className="w-4 h-4 text-brand-500" /><span>Entrega Imediata</span></div>
             </div>
 
-            {/* Players Alinhados Horizontalmente */}
             <div className="flex flex-row flex-wrap justify-center items-center gap-10 md:gap-14 animate-fade-in mt-4">
                 {audioTestimonials.map(audio => (
                     <CompactAudioPlayer 
@@ -214,7 +189,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate, onOpenCheckout, onOpenSe
                         id={audio.id}
                         image={audio.img}
                         user={audio.user}
-                        duration={audio.duration}
                         pausedMode={paused}
                         audioUrl={audio.audioUrl}
                         activeAudioId={activeAudioId}
